@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Will you go out with me? 💗</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:#f98abd;overflow:hidden;
+font-family:'Press Start 2P',monospace;color:#c71862}
+.scene{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;
+background:radial-gradient(circle at 50% 55%,#ffd1e6 0 18%,transparent 19%),linear-gradient(#f98abd,#ff77b5)}
+.scene:before{content:"";position:absolute;inset:0;background:
+radial-gradient(circle at 10% 35%,#fff 0 2px,transparent 3px),
+radial-gradient(circle at 88% 42%,#fff 0 2px,transparent 3px),
+radial-gradient(circle at 20% 22%,#fff 0 1px,transparent 2px),
+radial-gradient(circle at 75% 18%,#fff 0 1px,transparent 2px);opacity:.75}
+.cloud{position:absolute;width:170px;height:55px;background:#ffe7f1;border-radius:50%;bottom:15%;left:-20px;box-shadow:55px 5px 0 #ffe7f1,105px -5px 0 #ffe7f1}
+.cloud.r{left:auto;right:-55px;bottom:30%;transform:scale(.8)}
+.card{position:relative;width:min(92vw,520px);padding:28px 20px 38px;text-align:center;z-index:2}
+.icon{width:100px;height:100px;margin:0 auto 25px;background:#16151d;border:7px solid #ffdfed;
+outline:4px solid #b92766;display:flex;align-items:center;justify-content:center;font-size:55px;
+box-shadow:0 8px 0 #b92766}
+h1{font-size:clamp(18px,4.5vw,30px);line-height:1.45;margin:15px auto 28px;text-shadow:2px 2px #ffd3e5}
+.buttons{display:flex;justify-content:center;gap:18px;flex-wrap:wrap}.btn{font-family:inherit;font-size:14px;
+padding:15px 20px;border-radius:10px;border:3px solid #b51c5e;background:#fff0f7;color:#b51c5e;
+box-shadow:0 6px 0 #b51c5e;cursor:pointer}.btn.yes{background:#e62d78;color:white;font-size:18px}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 #b51c5e}
+.hidden{display:none}.subtitle{font-size:10px;line-height:1.8;margin:18px 0}.calendar{background:#fff0f7;border:3px solid #b51c5e;padding:12px;margin:10px auto;max-width:330px}
+.month{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:11px}.days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.day{border:1px solid #e66c9d;background:white;padding:8px 2px;font-family:inherit;font-size:9px;cursor:pointer;color:#b51c5e}
+.day.selected{background:#e62d78;color:white}.choices{display:grid;grid-template-columns:1fr 1fr;gap:9px;max-width:380px;margin:15px auto}
+.choice{font-family:inherit;font-size:9px;padding:11px 5px;background:#fff0f7;border:2px solid #b51c5e;color:#b51c5e;cursor:pointer}
+.choice.selected{background:#e62d78;color:white}.note{font-family:inherit;width:90%;min-height:70px;border:2px solid #b51c5e;padding:10px;font-size:10px;background:#fff0f7}
+</style></head>
+<body>
+<div class="scene"><div class="cloud"></div><div class="cloud r"></div>
+<div class="card">
+<section id="s1"><div class="icon">🐶</div><h1>Will you go<br>out with me?</h1>
+<div class="buttons"><button class="btn yes" onclick="yes()">YES!</button><button class="btn" onclick="nope()">No</button></div></section>
+
+<section id="s2" class="hidden"><div class="icon">🐻</div><h1>YAY! 💗</h1><div class="subtitle">I was hoping you'd say yes...</div>
+<button class="btn yes" onclick="showDate()">PRESS TO CONTINUE</button></section>
+
+<section id="s3" class="hidden"><div class="icon">🗓️</div><h1>PICK A DATE</h1>
+<div class="calendar"><div class="month"><span>August 2026</span><span>💗</span></div><div class="days" id="days"></div></div>
+<div class="subtitle">Pick the day you'd like to meet</div><button class="btn yes" onclick="showActivity()">NEXT</button></section>
+
+<section id="s4" class="hidden"><div class="icon">🐰</div><h1>WHAT WOULD YOU LIKE TO DO?</h1>
+<div class="choices" id="choices"></div><button class="btn yes" onclick="showFinal()">LOCK IT IN 💗</button></section>
+
+<section id="s5" class="hidden"><div class="icon">🐻‍❄️</div><h1>IT'S A DATE!</h1>
+<div class="subtitle" id="summary"></div><textarea id="note" class="note" placeholder="Anything you want me to know? (optional)"></textarea><br><br>
+<button class="btn yes" onclick="send()">SEND MY CHOICES 💌</button></section>
+</div></div>
+<script>
+const ENDPOINT="PASTE_APPS_SCRIPT_URL_HERE";
+let date="",activity="";
+function hideAll(){document.querySelectorAll("section").forEach(x=>x.classList.add("hidden"))}
+function yes(){hideAll();document.getElementById("s2").classList.remove("hidden")}
+function nope(){document.querySelector("#s1 h1").innerHTML="Aww… 😭<br>I'll try again another day 💗";document.querySelector("#s1 .buttons").innerHTML='<button class="btn yes" onclick="yes()">Okay… maybe 😳</button>'}
+function showDate(){hideAll();document.getElementById("s3").classList.remove("hidden");buildCalendar()}
+function buildCalendar(){let d=document.getElementById("days");d.innerHTML="";for(let i=1;i<=31;i++){let b=document.createElement("button");b.className="day";b.textContent=i;b.onclick=()=>{document.querySelectorAll(".day").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");date="August "+i+", 2026"};d.appendChild(b)}}
+const acts=["COFFEE DATE ☕","DINNER + WALK 🌙","MOVIE + SNACKS 🎬","EXPLORE SOMEWHERE NEW 🌿","JUST TALK & CHILL 💗","SURPRISE ME 👀"];
+function showActivity(){if(!date){alert("Pick a date first 💗");return}hideAll();document.getElementById("s4").classList.remove("hidden");let c=document.getElementById("choices");c.innerHTML="";acts.forEach(a=>{let b=document.createElement("button");b.className="choice";b.textContent=a;b.onclick=()=>{document.querySelectorAll(".choice").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");activity=a};c.appendChild(b)})}
+function showFinal(){if(!activity){alert("Pick what you'd like to do 💗");return}hideAll();document.getElementById("s5").classList.remove("hidden");document.getElementById("summary").innerHTML="You picked <b>"+date+"</b><br>and <b>"+activity+"</b><br><br>I'm looking forward to it! 😳💗"}
+function send(){let note=document.getElementById("note").value;if(ENDPOINT.includes("PASTE_")){alert("The page is ready. Add your Apps Script URL first.");return}
+let u=ENDPOINT+"?answer=YES&date="+encodeURIComponent(date)+"&activity="+encodeURIComponent(activity)+"&note="+encodeURIComponent(note);
+fetch(u,{mode:"no-cors"}).then(()=>{document.getElementById("summary").innerHTML="Sent! 💌<br><br>See you on our date 💗";document.getElementById("note").style.display="none";document.querySelector("#s5 button").style.display="none"}).catch(()=>alert("Please try again."))}
+</script></body></html>
